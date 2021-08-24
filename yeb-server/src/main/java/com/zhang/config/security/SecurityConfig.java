@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Security配置类
@@ -21,6 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private IAdminService iAdminService;
+    @Autowired
+    private RestAuthorizationEntryPoint restAuthorizationEntryPoint;
+    @Autowired
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,20 +43,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //允许登录访问
-                .antMatchers("/login","logout")
+                .antMatchers("/login","/logout")
                 .permitAll()
                 //除了上面，所有请求都要求认证
                 .anyRequest()
                 .authenticated()
                 .and()
+                //禁用缓存
                 .headers()
                 .cacheControl();
         //添加jwt 登录授权过滤器
-        http.addFilterBefore();
-        //添加自定义为授权和为登录结果返回
+        http.addFilterBefore(jwtAuthencationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //添加自定义为授权和未登录结果返回
         http.exceptionHandling()
-                .accessDeniedHandler()
-                .authenticationEntryPoint();
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthorizationEntryPoint);
     }
 
     @Override
@@ -69,6 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthencationTokenFilter jwtAuthencationTokenFilter(){
+        return new JwtAuthencationTokenFilter();
     }
     
 }

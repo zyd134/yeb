@@ -23,7 +23,7 @@ public class JwtTokenUtil {
     private Long expiration;
 
     /**
-     * 工具用户信息生成token
+     * 根据用户信息生成token
      * @param userDetails
      * @return
      */
