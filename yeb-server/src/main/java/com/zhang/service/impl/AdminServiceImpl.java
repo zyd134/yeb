@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -39,21 +40,26 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Value("${jwt.tokenHeader")
-    private String tokenHeader;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     /**
      * 登录之后返回token
      * @param username
      * @param password
+     * @param code
      * @param request
      * @return
      */
     @Override
-    public RespBean login(String username, String password, HttpServletRequest request) {
+    public RespBean login(String username, String password, String code, HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isEmpty(code) || !captcha.equalsIgnoreCase(code)){
+            return RespBean.error("验证码输入错误，请重新输入！");
+        }
         //登录
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (null == userDetails || passwordEncoder.matches(password,userDetails.getPassword())){
+        if (null == userDetails || !passwordEncoder.matches(password,userDetails.getPassword())){
             return RespBean.error("用户名活密码不正确");
         }
         if (!userDetails.isEnabled()){
@@ -66,7 +72,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         String token = jwtTokenUtil.generateToken(userDetails);
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token",token);
-        tokenMap.put("tokenHead",tokenHeader);
+        tokenMap.put("tokenHead",tokenHead);
         return RespBean.success("登录成功",tokenMap);
     }
 
