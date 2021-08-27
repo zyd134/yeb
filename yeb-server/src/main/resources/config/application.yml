@@ -27,6 +27,26 @@ spring:
       # 测试连接是否可用的查询语句
       connection-test-query: SELECT 1
 
+  redis:
+    #超时时间
+    timeout: 10000ms
+    #服务器地址
+    host: localhost
+    #服务器端口
+    port: 6379
+    #数据库
+    database: 0
+    lettuce:
+      pool:
+        #最大连接书，默认8
+        max-active: 1024
+        #最大连接阻塞等待时间，默认-1
+        max-wait: 10000ms
+        #最大空闲连接
+        max-idle: 200
+        #最小空闲连接
+        min-idle: 5
+
 # Mybatis-plus配置
 mybatis-plus:
   # 配置Mapper映射文件
@@ -40,7 +60,7 @@ mybatis-plus:
 # Mybatis SQL 打印（方法接口所在的包，不是Mapper.xml所在的包）
 logging:
   level:
-    com.xxx.server.mapper: debug
+    com.zhang.mapper: debug
 
 jwt:
   # JWT存储的请求头

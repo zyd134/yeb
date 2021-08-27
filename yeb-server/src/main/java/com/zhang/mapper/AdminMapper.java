@@ -2,6 +2,9 @@ package com.zhang.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhang.pojo.Admin;
+import com.zhang.pojo.Menu;
+
+import java.util.List;
 
 /**
  * <p>

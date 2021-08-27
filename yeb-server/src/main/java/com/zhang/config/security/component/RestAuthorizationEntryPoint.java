@@ -1,4 +1,4 @@
-package com.zhang.config.security;
+package com.zhang.config.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhang.pojo.RespBean;
