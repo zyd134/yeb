@@ -14,6 +14,7 @@ import java.util.Collection;
 /**
  * 权限控制
  * 判断用户角色
+ * @author thinkpad
  */
 @Component
 public class CustomUrlDecisionManager implements AccessDecisionManager {
