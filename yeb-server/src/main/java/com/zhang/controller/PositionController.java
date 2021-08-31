@@ -2,6 +2,7 @@ package com.zhang.controller;
 
 import com.zhang.pojo.Position;
 import com.zhang.pojo.RespBean;
+import com.zhang.service.IMenuService;
 import com.zhang.service.IPositionService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author thinkpad
  */
 @RestController
-@RequestMapping("/system/config/pos")
+@RequestMapping("/system/basic/pos")
 public class PositionController {
 
     @Autowired
@@ -68,5 +69,6 @@ public class PositionController {
             return RespBean.error("删除失败！");
         }
     }
+
 
 }

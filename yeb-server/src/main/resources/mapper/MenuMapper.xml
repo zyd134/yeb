@@ -38,6 +38,19 @@
             <result column="rnameZh" property="nameZh"/>
         </collection>
     </resultMap>
+    
+    <resultMap id="MenusWithChildren" type="com.zhang.pojo.Menu" extends="BaseResultMap">
+        <id column="id1" property="id"/>
+        <result column="name1" property="name"/>
+        <collection property="children" ofType="com.zhang.pojo.Menu">
+            <id column="id2" property="id"/>
+            <result column="name2" property="name"/>
+            <collection property="children" ofType="com.zhang.pojo.Menu">
+                <id column="id3" property="id"/>
+                <result column="name3" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -86,6 +99,25 @@
             m.id = mr.mid
             and r.id = mr.rid
         ORDER BY m.id
+    </select>
+
+    <!--查询所有菜单-->
+    <select id="getAllMenus" resultMap="MenusWithChildren">
+        SELECT
+            m1.id id1,
+            m1.`name` name1,
+            m2.id id3,
+            m2.`name` name3,
+            m3.id id3,
+            m3.`name` name3
+        from
+            t_menu m1,
+            t_menu m2,
+            t_menu m3
+        where
+            m1.id = m2.parentId
+            and m2.id = m3.parentId
+            and m3.enabled = true
     </select>
 
 </mapper>

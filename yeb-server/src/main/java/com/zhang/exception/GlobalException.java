@@ -13,10 +13,10 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class GlobalException {
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public RespBean exception(Exception e){
         return RespBean.error("系统出现异常，请联系管理员！");
-    }
+    }*/
 
 
 }

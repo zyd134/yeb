@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * 当访问接口没有权限是，自定义返回结果
+ * 当访问接口没有权限时，自定义返回结果
  */
 @Component
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
