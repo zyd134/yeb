@@ -1,5 +1,6 @@
 package com.zhang.controller;
 
+import com.zhang.AdminUtils;
 import com.zhang.pojo.Admin;
 import com.zhang.pojo.Menu;
 import com.zhang.service.IMenuService;
@@ -31,7 +32,7 @@ public class MenuController {
     @ApiOperation(value = "通过用户id查询菜单列表")
     @GetMapping("/menu")
     public List<Menu> getMenusByAdminId(){
-        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        Integer adminId = AdminUtils.getCurrentAdmin().getId();
         ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         //从redis获取菜单数据
         List<Menu> menus = (List<Menu>)valueOperations.get("menu_" + adminId);

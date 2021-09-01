@@ -38,7 +38,7 @@ public class JoblevelController {
     @ApiOperation(value = "添加职称")
     @PostMapping("/")
     public RespBean addJobLevel(@RequestBody Joblevel joblevel){
-        joblevel.setCreateDate(new Date());
+        joblevel.setCreateDate(LocalDateTime.now());
         if (joblevelService.save(joblevel)){
             return RespBean.success("添加成功！");
         }

@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -39,7 +40,8 @@ public class Position implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/shanghai")
+    private LocalDate createDate;
 
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;

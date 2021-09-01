@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class PositionController {
     @ApiOperation(value = "添加职位信息")
     @PostMapping("/")
     public RespBean addPosition(@RequestBody Position position){
-        position.setCreateDate(new Date());
+        position.setCreateDate(LocalDate.now());
         if (positionService.save(position)) {
             return RespBean.success("添加成功！");
         }else {
