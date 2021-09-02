@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhang.mapper.RoleMapper">
+<mapper namespace="com.zhang.server.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zhang.pojo.Role">
+    <resultMap id="BaseResultMap" type="com.zhang.server.pojo.Role">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="nameZh" property="nameZh" />
@@ -15,7 +15,7 @@
     </sql>
 
     <!--根据用户id查询角色列表-->
-    <select id="getRoles" resultType="com.zhang.pojo.Role">
+    <select id="getRoles" resultType="com.zhang.server.pojo.Role">
         select
             r.id,
             r.`name`,
