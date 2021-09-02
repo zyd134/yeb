@@ -49,7 +49,7 @@ public class MailTask {
                         .eq("msgId",mailLog.getMsgId()));
                 Employee employee = employeeService.getEmployee(mailLog.getEid()).get(0);
                 //发送消息
-                rabbitTemplate.convertAndSend("MailConstants.MAIL_EXCHANGE_NAME",MailConstants.MAIL_ROUTING_KEY_NAME,employee,new CorrelationData(mailLog.getMsgId()));
+                rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,MailConstants.MAIL_ROUTING_KEY_NAME,employee,new CorrelationData(mailLog.getMsgId()));
             }
         });
     }
