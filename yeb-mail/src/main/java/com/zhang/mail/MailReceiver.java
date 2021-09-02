@@ -1,6 +1,7 @@
 package com.zhang.mail;
 
 import com.zhang.server.pojo.Employee;
+import com.zhang.server.pojo.MailConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -32,7 +33,7 @@ public class MailReceiver {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @RabbitListener(queues = "mail.welcome")
+    @RabbitListener(queues = MailConstants.MAIL_EXCHANGE_NAME)
     public void handler(Employee employee){
         MimeMessage msg = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg);
@@ -52,7 +53,7 @@ public class MailReceiver {
             context.setVariable("joblevelName",employee.getJoblevel().getName());
             context.setVariable("departmentName",employee.getDepartment().getName());
             String mail = templateEngine.process("mail", context);
-            helper.setText(mail);
+            helper.setText(mail,true);
             //发送邮件
             javaMailSender.send(msg);
         } catch (MessagingException e) {
