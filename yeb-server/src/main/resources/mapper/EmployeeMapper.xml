@@ -119,4 +119,38 @@
         </where>
     </select>
 
+    <!--查询员工-->
+    <select id="getEmployee" resultMap="EmployeeInfo">
+        select
+            e.*,
+            n.id nid,
+            n.`name` nname,
+            p.id pid,
+            p.`name` pname,
+            d.id did,
+            d.`name` dname,
+            j.id jid,
+            j.`name` jname,
+            pos.id posid,
+            pos.`name` posname
+        from
+            t_employee e,
+            t_nation n,
+            t_politics_status p,
+            t_department d,
+            t_joblevel j,
+            t_position pos
+        where
+            e.nationId = n.id
+            and e.politicId = p.id
+            and e.departmentId = d.id
+            and e.jobLevelId = j.id
+            and e.posId = pos.id
+            <if test="null != id and '' != id">
+                and e.id = #{id}
+            </if>
+        ORDER BY
+            e.id
+    </select>
+
 </mapper>

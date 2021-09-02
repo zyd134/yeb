@@ -8,13 +8,14 @@ import com.zhang.pojo.Employee;
 import com.zhang.pojo.RespBean;
 import com.zhang.pojo.RespPageBean;
 import com.zhang.service.IEmployeeService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -29,6 +30,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 获取所有员工（分页）
@@ -60,8 +63,21 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         DecimalFormat decimalFormat = new DecimalFormat("##.00");
         employee.setContractTerm(Double.parseDouble(decimalFormat.format(days/356.00)));
         if (1 == employeeMapper.insert(employee)){
+            //发送信息
+            Employee emp = employeeMapper.getEmployee(employee.getId()).get(0);
+            rabbitTemplate.convertAndSend("mail.welcome",emp);
             return RespBean.success("添加成功！");
         }
         return RespBean.error("添加失败！");
+    }
+
+    /**
+     * 查询员工
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Employee> getEmployee(Integer id) {
+        return employeeMapper.getEmployee(id);
     }
 }

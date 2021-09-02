@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +28,11 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      * @return
      */
     IPage<Employee> getEmployeeByPage(Page<Employee> page, @Param("employee") Employee employee, @Param("beginDateScope") LocalDate[] beginDateScope);
+
+    /**
+     * 查询员工
+     * @param id
+     * @return
+     */
+    List<Employee> getEmployee(Integer id);
 }
