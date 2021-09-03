@@ -1,6 +1,6 @@
 package com.zhang.server.controller;
 
-import com.zhang.server.AdminUtils;
+import com.zhang.server.utils.AdminUtils;
 import com.zhang.server.pojo.Menu;
 import com.zhang.server.service.IMenuService;
 import io.swagger.annotations.ApiOperation;
